@@ -1,0 +1,29 @@
+{
+  "name": "mean-stack-with-angular5-example1",
+  "version": "1.0.0",
+  "description": "Mean stack angular 5 ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pankaj-sagoon/mean-stack-with-angular5-example1.git"
+  },
+  "keywords": [
+    "angular5",
+    "mean",
+    "stack"
+  ],
+  "author": "Pankaj Bharati",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pankaj-sagoon/mean-stack-with-angular5-example1/issues"
+  },
+  "homepage": "https://github.com/pankaj-sagoon/mean-stack-with-angular5-example1#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "mongoose": "^4.13.5"
+  }
+}
