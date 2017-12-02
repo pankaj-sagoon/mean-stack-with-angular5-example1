@@ -3,6 +3,7 @@ import {FormControl, FormGroup, FormBuilder, Validators} from "@angular/forms";
 import {AuthService} from "../../services/auth.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {BlogService} from "../../services/blog.service";
+import set = Reflect.set;
 
 @Component({
   selector: 'app-blog',
@@ -18,6 +19,8 @@ export class BlogComponent implements OnInit {
   processing;
   message;
   messageClass;
+  blogs;
+  loadingBlogs;
 
 
 
@@ -92,6 +95,7 @@ export class BlogComponent implements OnInit {
           this.form.reset();
           this.newPost= false;
           this.enableForm();
+          this.getAllBlogs();
         }
       },
       (err: HttpErrorResponse) => {
@@ -102,6 +106,22 @@ export class BlogComponent implements OnInit {
         }
       }
     );
+  }
+
+  getAllBlogs(){
+    this.loadingBlogs= true;
+    this.blogService.allBlog().subscribe(
+      (data:any)=>{
+        this.blogs= data.blogs;
+        setTimeout(()=>{
+          this.loadingBlogs= false;
+        }, 1000);
+      }
+    );
+  }
+
+  reloadBlogs(){
+    this.getAllBlogs();
   }
 
   ngOnInit() {
@@ -117,6 +137,8 @@ export class BlogComponent implements OnInit {
         }
       }
     );
+
+    this.getAllBlogs();
   }
 
 }

@@ -25,4 +25,13 @@ export class BlogService {
     return this.http.post(Config.domain + 'blogs/newBlog', blog, this.options);
   }
 
+  allBlog(){
+    this.createAuthenticationHeaders();
+    return this.http.get(Config.domain + 'blogs/allBlogs', this.options);
+  }
+  singleBlog(id){
+    this.createAuthenticationHeaders();
+    return this.http.get(Config.domain+ 'blogs/singleBlog/'+ id, this.options);
+  }
+
 }
