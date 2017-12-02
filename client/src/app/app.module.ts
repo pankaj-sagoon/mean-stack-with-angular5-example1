@@ -14,6 +14,7 @@ import {LoginComponent} from './components/login/login.component';
 import {ProfileComponent} from './components/profile/profile.component';
 import {AuthGuard} from "./guard/auth.guard";
 import {NoauthGuard} from "./guard/noauth.guard";
+import { BlogComponent } from './components/blog/blog.component';
 
 
 
@@ -25,7 +26,8 @@ import {NoauthGuard} from "./guard/noauth.guard";
     DashboardComponent,
     RegisterComponent,
     LoginComponent,
-    ProfileComponent
+    ProfileComponent,
+    BlogComponent
   ],
   imports: [
     BrowserModule,

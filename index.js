@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 const config = require('./config/database');
 const mongoose = require('mongoose');
 const authentication = require('./routes/authentication')(router);
+const blogs = require('./routes/blog')(router);
 const path = require('path');
 const cors = require('cors');
 
@@ -31,6 +32,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.use('/authentication', authentication);
+app.use('/blogs', blogs);
 
 
 

@@ -1,0 +1,101 @@
+<button type="button" class="btn btn-primary" *ngIf="!newPost" (click)="newBlogForm()">New Post</button>
+<button type="button" class="btn btn-info">Reload</button>
+
+<br>
+<br>
+
+<div *ngIf="message" [ngClass]="messageClass">
+  {{message}}
+</div>
+
+<form [formGroup]="form" name="blogForm" (submit)="onsubmit()" *ngIf="newPost" novalidate>
+  <div class="form-group">
+    <label>Blog title</label>
+    <input type="text" class="form-control" name="title" placeholder="*Blog title" autocomplete="off"
+           formControlName="title"
+           [ngClass]="{'is-invalid': (form.controls.title.errors && form.controls.title.dirty), 'is-valid': (!form.controls.title.errors)}">
+    <div class="invalid-feedback" *ngIf="form.controls.title.errors?.required && form.controls.title.dirty">
+      Title is required
+    </div>
+    <div class="invalid-feedback"
+         *ngIf="form.controls.title.errors?.minlength || form.controls.title.errors?.maxlength && form.controls.title.dirty">
+      Title must be at least 5 characters but no more than 100
+    </div>
+    <div class="invalid-feedback" *ngIf="form.controls.title.errors?.validateTitle && form.controls.title.dirty">
+      Title is invalid
+    </div>
+  </div>
+  <div class="form-group">
+    <label>Blog body</label>
+    <textarea type="text" rows="8" cols="80" class="form-control" name="body" placeholder="*Blog body" autocomplete="off"
+           formControlName="body"
+              [ngClass]="{'is-invalid': (form.controls.body.errors && form.controls.body.dirty), 'is-valid': (!form.controls.body.errors)}"></textarea>
+    <div class="invalid-feedback" *ngIf="form.controls.body.errors?.required && form.controls.body.dirty">
+      Body text is required
+    </div>
+    <div class="invalid-feedback"
+         *ngIf="form.controls.body.errors?.minlength || form.controls.body.errors?.maxlength && form.controls.body.dirty">
+      Body text must be at least 5 characters but no more than 500
+    </div>
+  </div>
+
+  <button [disabled]="processing" type="button" class="btn btn-primary" (click)="goBack()">Go back</button>
+  <button [disabled]="processing || !form.valid" type="submit" class="btn btn-info">Create Blog</button>
+</form>
+
+<div *ngIf="!newPost">
+<div class="card">
+  <div class="card-header">
+    <h2>Special title treatment</h2>
+  </div>
+  <div class="card-body">
+    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+
+    <div class="divider"></div>
+    <p><strong>Posted By:</strong> jasdfljas</p>
+    <p><strong>Date:</strong> jasdfljas</p>
+    <p><strong>Likes:</strong> 33</p>
+    <p><strong>Dislikes:</strong> 33</p>
+  </div>
+  <div class="card-footer">
+    <button type="button" class="btn btn-info">Edit</button>
+    <button type="button" class="btn btn-danger">Delete</button>
+
+    <span class="dropdown">
+      <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+        Likes
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="#">Action</a>
+        <a class="dropdown-item" href="#">Another action</a>
+        <a class="dropdown-item" href="#">Something else here</a>
+      </div>
+    </span>
+
+
+    <span class="dropdown">
+      <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+        Dislikes
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="#">Action</a>
+        <a class="dropdown-item" href="#">Another action</a>
+        <a class="dropdown-item" href="#">Something else here</a>
+      </div>
+    </span>
+
+  </div>
+
+  <ul class="list-group">
+    <li class="list-group-item">
+      <button type="button" class="btn btn-warning">Post comment</button>
+
+      <!--<form >
+        <textarea name="" id="" cols="30" rows="10" class="form-control"></textarea>
+        <button type="submit" class="btn btn-info">Post comment</button>
+        <button type="button" class="btn btn-danger">Cancel</button>
+      </form>-->
+    </li>
+  </ul>
+</div>
+</div>
