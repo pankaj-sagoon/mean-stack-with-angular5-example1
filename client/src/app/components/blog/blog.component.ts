@@ -3,7 +3,7 @@ import {FormControl, FormGroup, FormBuilder, Validators} from "@angular/forms";
 import {AuthService} from "../../services/auth.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {BlogService} from "../../services/blog.service";
-import set = Reflect.set;
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-blog',
@@ -14,30 +14,35 @@ import set = Reflect.set;
 export class BlogComponent implements OnInit {
 
   form: FormGroup;
-  username;
-  newPost;
-  processing;
-  message;
-  messageClass;
+  commentForm: FormGroup;
+  username: string;
+  newPost: Boolean;
+  processing: Boolean;
+  message: string;
+  messageClass: string;
   blogs;
-  loadingBlogs;
-
+  loadingBlogs: Boolean;
+  newComment = [];
+  enableComment = [];
 
 
   newBlogForm() {
     this.newPost = true;
   };
-  goBack(){
-    window.location.reload();
+
+  goBack() {
+    this.location.back();
   }
 
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService,
-              private blogService: BlogService) {
+              private blogService: BlogService,
+              private location: Location) {
     this.createForm();
+    this.createComment();
   }
 
-
+  //Create blog post
   createForm() {
     this.form = this.formBuilder.group({
       title: ['', Validators.compose([
@@ -71,7 +76,6 @@ export class BlogComponent implements OnInit {
     }
   }
 
-
   onsubmit() {
     this.processing = true;
     this.disableForm();
@@ -80,20 +84,19 @@ export class BlogComponent implements OnInit {
       body: this.form.get('body').value,
       createdBy: this.username
     };
-    console.log(blog);
     this.blogService.newBlog(blog).subscribe(
       (data: any) => {
-        if(!data.success){
+        if (!data.success) {
           this.messageClass = "alert alert-danger";
-          this.message= data.message;
+          this.message = data.message;
           this.processing = false;
           this.enableForm();
-        }else{
+        } else {
           this.messageClass = "alert alert-success";
-          this.message= data.message;
+          this.message = data.message;
           this.processing = true;
           this.form.reset();
-          this.newPost= false;
+          this.newPost = false;
           this.enableForm();
           this.getAllBlogs();
         }
@@ -108,31 +111,160 @@ export class BlogComponent implements OnInit {
     );
   }
 
-  getAllBlogs(){
-    this.loadingBlogs= true;
+  //Create Comment form
+  createComment(): void {
+    this.commentForm = this.formBuilder.group({
+      comment: ['', Validators.compose([
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(200)
+      ])]
+    });
+
+  }
+
+  getAllBlogs() {
+    this.loadingBlogs = true;
     this.blogService.allBlog().subscribe(
-      (data:any)=>{
-        this.blogs= data.blogs;
-        setTimeout(()=>{
-          this.loadingBlogs= false;
+      (data: any) => {
+        this.blogs = data.blogs;
+        setTimeout(() => {
+          this.loadingBlogs = false;
         }, 1000);
       }
     );
   }
 
-  reloadBlogs(){
+  reloadBlogs() {
     this.getAllBlogs();
   }
 
+  likeBlog(id): void {
+    this.blogService.likeBlog(id).subscribe(
+      (data: any) => {
+        if (!data.success) {
+        } else {
+          this.message = data.message;
+          this.blogs[this.blogs.findIndex((i) => {
+            return i._id === id
+          })].likes = data.blog.likes;
+          this.blogs[this.blogs.findIndex((i) => {
+            return i._id === id
+          })].dislikes = data.blog.dislikes;
+          this.blogs[this.blogs.findIndex((i) => {
+            return i._id === id
+          })].likedBy = data.blog.likedBy;
+          this.blogs[this.blogs.findIndex((i) => {
+            return i._id === id
+          })].dislikedBy = data.blog.dislikedBy;
+        }
+      },
+      (err: HttpErrorResponse) => {
+        if (err.error instanceof Error) {
+          console.log('An error occurred', err.error.message);
+        } else {
+          console.log(`Backend returned code ${err.status}, body was: ${err.error}`);
+        }
+      }
+    )
+  }
+
+  dislikeBlog(id): void {
+    this.blogService.dislikeBlog(id).subscribe(
+      (data: any) => {
+        if (!data.success) {
+        } else {
+          this.message = data.message;
+          this.blogs[this.blogs.findIndex((i) => {
+            return i._id === id
+          })].likes = data.blog.likes;
+          this.blogs[this.blogs.findIndex((i) => {
+            return i._id === id
+          })].dislikes = data.blog.dislikes;
+          this.blogs[this.blogs.findIndex((i) => {
+            return i._id === id
+          })].likedBy = data.blog.likedBy;
+          this.blogs[this.blogs.findIndex((i) => {
+            return i._id === id
+          })].dislikedBy = data.blog.dislikedBy;
+        }
+      },
+      (err: HttpErrorResponse) => {
+        if (err.error instanceof Error) {
+          console.log('An error occurred', err.error.message);
+        } else {
+          console.log(`Backend returned code ${err.status}, body was: ${err.error}`);
+        }
+      }
+    )
+  }
+
+  postComment(id) {
+    this.disableCommentForm();
+    const blogData = {
+      id: id,
+      comment: this.commentForm.get('comment').value
+    };
+
+    this.blogService.postComment(blogData).subscribe(
+      (data: any) => {
+        this.newComment = [];
+        this.commentForm.reset();
+        this.enableCommentForm();
+        this.blogs[this.blogs.findIndex((i) => {return i._id === blogData.id})].comments.push({
+          comment: blogData.comment,
+          commentator: this.username
+        });
+        this.expand(blogData.id);
+      },
+      (err: HttpErrorResponse) => {
+        if (err.error instanceof Error) {
+          console.log('An error occurred', err.error.message);
+        } else {
+          console.log(`Backend returned code ${err.status}, body was: ${err.error}`);
+        }
+      }
+    )
+  }
+
+  enableCommentForm() {
+    this.commentForm.get('comment').enable();
+  }
+
+  disableCommentForm() {
+    this.commentForm.get('comment').disable();
+  }
+
+  draftComment(id): void {
+    this.commentForm.reset();
+    this.newComment = [];
+    this.newComment.push(id);
+  }
+
+  cancel() {
+    this.newComment = [];
+    this.commentForm.reset();
+    this.enableCommentForm();
+  }
+
+  expand(id) {
+    this.enableComment.push(id);
+  }
+
+  collapse(id) {
+    this.enableComment.splice(this.enableComment.indexOf(id), 1);
+  }
+
+
   ngOnInit() {
     this.authService.getProfile().subscribe(
-      (data: any)=>{
+      (data: any) => {
         this.username = data.user.username;
       },
-      (err: HttpErrorResponse)=>{
-        if (err.error instanceof Error){
+      (err: HttpErrorResponse) => {
+        if (err.error instanceof Error) {
           console.log('An error occurred', err.error.message);
-        }else{
+        } else {
           console.log(`Backend returned code ${err.status}, body was: ${err.error}`);
         }
       }
@@ -140,5 +272,6 @@ export class BlogComponent implements OnInit {
 
     this.getAllBlogs();
   }
+
 
 }

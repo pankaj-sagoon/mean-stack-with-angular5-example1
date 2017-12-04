@@ -159,7 +159,7 @@ module.exports = (router) => {
 
     /*
    * Routes to User Profile
-   * ========================================*/
+   * ===========================á=============*/
     router.get('/profile',(req, res)=>{
         User.findOne({'_id': req.decoded.userId}).select('username email').exec((err, user)=>{
             if(err){
@@ -173,6 +173,28 @@ module.exports = (router) => {
             }
         })
     });
+    /*
+   * Routes to User Public Profile
+   * ===========================á=============*/
+    router.get('/publicProfile/:username',(req, res)=>{
+        if(!req.params.username){
+            res.json({success: false, message: 'No username provided' });
+        }else{
+            User.findOne({'username': req.params.username}).select('username email').exec((err, user)=>{
+                if(err){
+                    res.json({success: false, message: err });
+                }else{
+                    if(!user){
+                        res.json({success: false, message: 'User not found' });
+                    }else{
+                        res.json({success: true, user: user });
+                    }
+                }
+            })
+        }
+    });
+
+
 
     return router;
 };

@@ -58,7 +58,7 @@ let commentLengthChecker = (comments) => {
     if(!comments[0]){
         return false
     }else{
-        if(comments[0].length < 5 || comments[0].length > 200){
+        if(comments[0].length < 1 || comments[0].length > 200){
             return false;
         }else{
             return true;
@@ -78,10 +78,10 @@ const userSchema = new Schema({
     body: {type: String, required: true, validate: bodyValidators},
     createdBy: {type: String},
     createdAt: {type: Date, default: Date.now()},
-    likes: {type: Number},
-    likedBy: {type: String},
-    dislikes: {type: Number},
-    dislikedBy: {type: Number},
+    likes: {type: Number, default: 0},
+    likedBy: {type: Array},
+    dislikes: {type: Number, default: 0},
+    dislikedBy: {type: Array},
     comments: [{
         comment:{type: String, validate: commentValidators},
         commentator:{type: String}

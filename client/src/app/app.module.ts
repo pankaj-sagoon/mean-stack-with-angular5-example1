@@ -16,6 +16,7 @@ import {AuthGuard} from "./guard/auth.guard";
 import {NoauthGuard} from "./guard/noauth.guard";
 import { BlogComponent } from './components/blog/blog.component';
 import {EditBlogComponent} from "./components/blog/edit-blog.component";
+import { PublicProfileComponent } from './components/public-profile/public-profile.component';
 
 
 
@@ -30,7 +31,8 @@ import {EditBlogComponent} from "./components/blog/edit-blog.component";
     LoginComponent,
     ProfileComponent,
     BlogComponent,
-    EditBlogComponent
+    EditBlogComponent,
+    PublicProfileComponent
   ],
   imports: [
     BrowserModule,

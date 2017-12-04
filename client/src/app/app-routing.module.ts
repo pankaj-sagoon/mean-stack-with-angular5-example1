@@ -10,6 +10,7 @@ import {AuthGuard} from "./guard/auth.guard";
 import {NoauthGuard} from "./guard/noauth.guard";
 import {BlogComponent} from "./components/blog/blog.component";
 import {EditBlogComponent} from "./components/blog/edit-blog.component";
+import {PublicProfileComponent} from "./components/public-profile/public-profile.component";
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -17,6 +18,7 @@ const routes: Routes = [
   {path: 'register', component: RegisterComponent, canActivate: [NoauthGuard]},
   {path: 'login', component: LoginComponent, canActivate: [NoauthGuard]},
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
+  {path: 'publicProfile/:username', component: PublicProfileComponent, canActivate: [AuthGuard]},
   {path: 'blog', component: BlogComponent, canActivate: [AuthGuard]},
   {path: 'edit-blog/:id', component: EditBlogComponent, canActivate: [AuthGuard]},
   {path: '**', component: HomeComponent},

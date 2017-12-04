@@ -65,6 +65,10 @@ export class AuthService {
     this.createAuthenticationHeaders();
     return this.http.get(api_url.profile, this.options);
   }
+  public publicProfile(username){
+    this.createAuthenticationHeaders();
+    return this.http.get(Config.domain + 'authentication/publicProfile/' + username, this.options);
+  }
 
 
   storeUserData(token, user){

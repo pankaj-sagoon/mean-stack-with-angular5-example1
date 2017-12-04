@@ -63,25 +63,25 @@
       <a [routerLink]="['/delete-blog/', blog._id]" class="btn btn-danger" *ngIf="username===blog.createdBy">Delete</a>
 
       <span class="dropdown" *ngIf="username !== blog.createdBy">
-      <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-        Likes
+      <button [disabled]="blog.likedBy.indexOf(username) > -1" class="btn btn-primary dropdown-toggle" type="button"
+              data-toggle="dropdown" (click)="likeBlog(blog._id)">
+        Likes {{blog.likes}}
       </button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" href="#">Action</a>
-        <a class="dropdown-item" href="#">Another action</a>
-        <a class="dropdown-item" href="#">Something else here</a>
+        <a [routerLink]="['/publicProfile/', likedBy]" class="dropdown-item" *ngFor="let likedBy of blog.likedBy">{{likedBy}}</a>
       </div>
     </span>
 
 
       <span class="dropdown" *ngIf="username !== blog.createdBy">
-      <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-        Dislikes
+      <button [disabled]="blog.dislikedBy.indexOf(username) > -1" class="btn btn-primary dropdown-toggle" type="button"
+              data-toggle="dropdown"
+              (click)="dislikeBlog(blog._id)">
+        Dislikes {{blog.dislikes}}
       </button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" href="#">Action</a>
-        <a class="dropdown-item" href="#">Another action</a>
-        <a class="dropdown-item" href="#">Something else here</a>
+        <a [routerLink]="['/publicProfile/', dislikedBy]" class="dropdown-item"
+           *ngFor="let dislikedBy of blog.dislikedBy">{{dislikedBy}}</a>
       </div>
     </span>
 
@@ -89,14 +89,44 @@
 
     <ul class="list-group">
       <li class="list-group-item">
-        <button type="button" class="btn btn-warning">Post comment</button>
+        <button type="button" class="btn btn-warning" (click)="draftComment(blog._id)"
+                [disabled]="newComment.indexOf(blog._id) > -1">Comments
+        </button>
+        <div *ngIf="newComment.indexOf(blog._id) > -1">
+          <form [formGroup]="commentForm" novalidate name="commentForm" (submit)="postComment(blog._id)">
+            <br>
+            <div class="form-group">
+          <textarea class="form-control" name="comment" id="comment" cols="10" rows="8" autocomplete="off"
+                    formControlName="comment"
+                    [ngClass]="{'is-invalid': (commentForm.controls.comment.errors && commentForm.controls.comment.dirty), 'is-valid': (!commentForm.controls.comment.errors)}"></textarea>
 
-        <!--<form >
-          <textarea name="" id="" cols="30" rows="10" class="form-control"></textarea>
-          <button type="submit" class="btn btn-info">Post comment</button>
-          <button type="button" class="btn btn-danger">Cancel</button>
-        </form>-->
+              <div class="invalid-feedback"
+                   *ngIf="commentForm.controls.comment.errors?.required && commentForm.controls.comment.dirty">
+                Comment required
+              </div>
+              <div class="invalid-feedback"
+                   *ngIf="commentForm.controls.comment.errors?.minlength || commentForm.controls.comment.errors?.maxlength && commentForm.controls.comment.dirty">
+                Comment must be at least 1 characters but no more than 200
+              </div>
+
+            </div>
+            <br>
+            <button type="submit" [disabled]="!commentForm.valid" class="btn btn-info" >Post comment</button>
+            <button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button>
+          </form>
+        </div>
       </li>
+
+      <li class="list-group-item" *ngIf="enableComment.indexOf(blog._id) === -1 && blog.comments.length > 0" (click)="expand(blog._id)">Show comment</li>
+
+      <li class="list-group-item" *ngIf="enableComment.indexOf(blog._id) > -1 && blog.comments.length > 0" (click)="collapse(blog._id)">Hide comment</li>
+
+
+      <ng-container *ngIf="blog.comments.length > 0 && enableComment.indexOf(blog._id) > -1">
+      <li class="list-group-item" *ngFor="let comment of blog.comments;">
+        <strong>{{comment.commentator}} : </strong> {{comment.comment}}
+      </li>
+      </ng-container>
     </ul>
   </div>
 </div>

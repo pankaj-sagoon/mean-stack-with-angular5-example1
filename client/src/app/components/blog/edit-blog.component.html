@@ -17,7 +17,6 @@
   </div>
 
   <button [disabled]="processing" type="button" class="btn btn-info" (click)="goBack()">Go back</button>
-  <a [routerLink]="['/delete-blog/', blog._id]" class="btn btn-danger">Delete blog</a>
+  <button type="button" class="btn btn-danger" (click)="deleteBlog()">Delete blog</button>
   <button [disabled]="processing" type="submit" class="btn btn-primary">Update blog</button>
-
 </form>

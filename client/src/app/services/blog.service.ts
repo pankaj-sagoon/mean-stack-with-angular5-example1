@@ -33,5 +33,28 @@ export class BlogService {
     this.createAuthenticationHeaders();
     return this.http.get(Config.domain+ 'blogs/singleBlog/'+ id, this.options);
   }
+  updateBlog(blog){
+    this.createAuthenticationHeaders();
+    return this.http.put(Config.domain+ 'blogs/updateBlog', blog, this.options);
+  }
+  deleteBlog(id){
+    this.createAuthenticationHeaders();
+    return this.http.delete(Config.domain+ 'blogs/deleteBlog/'+ id, this.options);
+  }
+  likeBlog(id){
+    this.createAuthenticationHeaders();
+    const blogData= {id: id};
+    return this.http.put(Config.domain+ 'blogs/likeBlog', blogData, this.options);
+  }
+  dislikeBlog(id){
+    this.createAuthenticationHeaders();
+    const blogData= {id: id};
+    return this.http.put(Config.domain+ 'blogs/dislikeBlog', blogData, this.options);
+  }
+  postComment(blogData){
+    this.createAuthenticationHeaders();
+    return this.http.post(Config.domain+ 'blogs/postComment', blogData, this.options);
+  }
+
 
 }
