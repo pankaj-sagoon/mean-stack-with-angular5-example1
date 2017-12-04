@@ -8,12 +8,12 @@ const authentication = require('./routes/authentication')(router);
 const blogs = require('./routes/blog')(router);
 const path = require('path');
 const cors = require('cors');
-
+const port = process.env.PORT || 8080;
 mongoose.connect(config.uri, (err) => {
-    if(err){
+    if (err) {
         console.log('Could not connect to database');
-    }else{
-        console.log('Connected to database: ' +  config.db);
+    } else {
+        console.log('Connected to database: ' + config.db);
     }
 });
 mongoose.Promise = global.Promise;
@@ -26,7 +26,7 @@ app.use(cors({
 }));
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({extended: false}))
 
 // parse application/json
 app.use(bodyParser.json())
@@ -35,11 +35,10 @@ app.use('/authentication', authentication);
 app.use('/blogs', blogs);
 
 
-
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname + '/client/dist/index.html'));
 });
 
-app.listen(8080, ()=> {
-    console.log('Listening on port number 8080');
+app.listen(port, () => {
+    console.log('Listening on port number ' + port);
 });
