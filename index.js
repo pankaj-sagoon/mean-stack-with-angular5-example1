@@ -18,7 +18,7 @@ mongoose.connect(config.uri, (err) => {
 });
 mongoose.Promise = global.Promise;
 
-app.use(express.static(__dirname + '/client/dist/'));
+app.use(express.static(__dirname + '/public/'));
 
 //allow cors
 app.use(cors({
@@ -36,7 +36,7 @@ app.use('/blogs', blogs);
 
 
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname + '/client/dist/index.html'));
+    res.sendFile(path.join(__dirname + '/public/index.html'));
 });
 
 app.listen(port, () => {

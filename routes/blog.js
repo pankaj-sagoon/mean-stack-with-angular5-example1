@@ -186,7 +186,7 @@ module.exports = (router) => {
         if (!req.body.id) {
             res.json({success: false, message: 'No id was provided'});
         } else {
-            console.log("id: ", req.body.id);
+
             Blog.findOne({_id: req.body.id}, (err, blog) => {
                 if (err) {
                     res.json({success: false, message: err});
@@ -269,7 +269,7 @@ module.exports = (router) => {
                                             if (blog.likedBy.includes(user.username)) {
                                                 blog.likes--;
                                                 const arrayIndex = blog.likedBy.indexOf(user.username);
-                                                console.log(arrayIndex);
+
                                                 blog.likedBy.splice(arrayIndex, 1);
                                                 blog.dislikes++;
                                                 blog.dislikedBy.push(user.username);
