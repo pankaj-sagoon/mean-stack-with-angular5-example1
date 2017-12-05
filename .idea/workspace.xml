@@ -187,7 +187,7 @@
       <workItem from="1512240104947" duration="7344000" />
       <workItem from="1512287075700" duration="6457000" />
       <workItem from="1512367077143" duration="21889000" />
-      <workItem from="1512452414483" duration="3782000" />
+      <workItem from="1512452414483" duration="4036000" />
     </task>
     <task id="LOCAL-00001" summary="Routing and navigation implemented">
       <created>1512194453284</created>
@@ -238,11 +238,18 @@
       <option name="project" value="LOCAL" />
       <updated>1512456584077</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="final build">
+      <created>1512457057191</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1512457057191</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="110781000" />
+    <option name="totallyTimeSpent" value="111035000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -278,7 +285,8 @@
     <MESSAGE value="Routing and navigation implemented" />
     <MESSAGE value="Blog created" />
     <MESSAGE value="comment post done" />
-    <option name="LAST_COMMIT_MESSAGE" value="comment post done" />
+    <MESSAGE value="final build" />
+    <option name="LAST_COMMIT_MESSAGE" value="final build" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
