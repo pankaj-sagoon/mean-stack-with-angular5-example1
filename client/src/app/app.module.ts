@@ -19,6 +19,7 @@ import {BlogComponent} from './components/blog/blog.component';
 import {EditBlogComponent} from "./components/blog/edit-blog.component";
 import {PublicProfileComponent} from './components/public-profile/public-profile.component';
 import { ChatComponent } from './components/chat/chat.component';
+import {SocketService} from './services/socket.service';
 
 
 @NgModule({
@@ -45,7 +46,7 @@ import { ChatComponent } from './components/chat/chat.component';
     InterceptorModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
-  providers: [AuthService, AuthGuard, NoauthGuard],
+  providers: [AuthService, AuthGuard, NoauthGuard, SocketService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
