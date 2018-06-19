@@ -11,25 +11,27 @@ import {NoauthGuard} from "./guard/noauth.guard";
 import {BlogComponent} from "./components/blog/blog.component";
 import {EditBlogComponent} from "./components/blog/edit-blog.component";
 import {PublicProfileComponent} from "./components/public-profile/public-profile.component";
+import {ChatComponent} from './components/chat/chat.component';
 
 const routes: Routes = [
-  {path: '', component: HomeComponent},
-  {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
-  {path: 'register', component: RegisterComponent, canActivate: [NoauthGuard]},
-  {path: 'login', component: LoginComponent, canActivate: [NoauthGuard]},
-  {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
-  {path: 'publicProfile/:username', component: PublicProfileComponent, canActivate: [AuthGuard]},
-  {path: 'blog', component: BlogComponent, canActivate: [AuthGuard]},
-  {path: 'edit-blog/:id', component: EditBlogComponent, canActivate: [AuthGuard]},
-  {path: '**', component: HomeComponent},
+    {path: '', component: HomeComponent},
+    {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
+    {path: 'register', component: RegisterComponent, canActivate: [NoauthGuard]},
+    {path: 'login', component: LoginComponent, canActivate: [NoauthGuard]},
+    {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
+    {path: 'publicProfile/:username', component: PublicProfileComponent, canActivate: [AuthGuard]},
+    {path: 'blog', component: BlogComponent, canActivate: [AuthGuard]},
+    {path: 'edit-blog/:id', component: EditBlogComponent, canActivate: [AuthGuard]},
+    {path: 'chat', component: ChatComponent, canActivate: [AuthGuard]},
+    {path: '**', component: HomeComponent},
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
+    imports: [
+        CommonModule,
 
-    RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+        RouterModule.forRoot(routes)],
+    exports: [RouterModule]
 })
 export class AppRoutingModule {
 }

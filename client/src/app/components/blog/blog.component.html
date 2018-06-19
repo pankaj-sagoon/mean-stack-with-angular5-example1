@@ -45,7 +45,7 @@
 </form>
 
 <div *ngIf="!newPost">
-  <div class="card" *ngFor="let blog of blogs;">
+  <div class="card" *ngFor="let blog of blogs;" [@heroState]="state" (click)="toggleState()">
     <div class="card-header">
       <h2>{{blog.title}}</h2>
     </div>

@@ -4,12 +4,31 @@ import {AuthService} from "../../services/auth.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {BlogService} from "../../services/blog.service";
 import {Location} from "@angular/common";
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition
+} from '@angular/animations';
 
 @Component({
   selector: 'app-blog',
   templateUrl: './blog.component.html',
   styleUrls: ['./blog.component.css'],
-  providers: [BlogService]
+  providers: [BlogService],
+  animations: [
+    trigger('heroState', [
+      state('inactive', style({
+        transform: 'scale(1)'
+      })),
+      state('active',   style({
+        transform: 'scale(1.1)'
+      })),
+      transition('inactive => active', animate('200ms ease-in')),
+      transition('active => inactive', animate('200ms ease-out'))
+    ])
+  ]
 })
 export class BlogComponent implements OnInit {
 
@@ -24,6 +43,11 @@ export class BlogComponent implements OnInit {
   loadingBlogs: Boolean;
   newComment = [];
   enableComment = [];
+  state;
+
+  toggleState() {
+    this.state = this.state === 'active' ? 'inactive' : 'active';
+  }
 
 
   newBlogForm() {

@@ -9214,7 +9214,16 @@ legend {
 
 /*new styles*/
 /* Show it is fixed to the top */
+html,body{
+  height:100%;
+}
 body{
   padding-top: 4.5rem;
+  overflow: hidden;
+}
+app-root{
+  height: 100%;
+  display: block;
+  overflow-y: auto;
 }
 

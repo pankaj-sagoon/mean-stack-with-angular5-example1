@@ -7,16 +7,16 @@ import 'rxjs/add/operator/do';
 export class HttpsRequestInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    return next.handle(req);
+    //return next.handle(req);
 
 
-    /*const headers = new HttpHeaders({
+    const headers = new HttpHeaders({
       'Authorization': 'CUSTOM AUTHORIZATION TOKEN',
       'WEB-API-key': 'CUSTOME WEB API KEY'
     });
 
-    const authReq = req.clone({ headers:headers});
-    return next.handle(authReq);*/
+    const authReq = req.clone({ headers: headers});
+    return next.handle(authReq);
 
   }
 };

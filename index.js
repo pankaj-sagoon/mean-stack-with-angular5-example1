@@ -22,7 +22,7 @@ app.use(express.static(__dirname + '/public/'));
 
 //allow cors
 app.use(cors({
-    origin: 'http://localhost:4200',
+    origin: 'http://localhost:4300',
 }));
 
 // parse application/x-www-form-urlencoded
